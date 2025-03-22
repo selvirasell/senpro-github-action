@@ -44,23 +44,26 @@ jobs:
             eval "$(ssh-agent -s)"
             ssh-add ~/.ssh/ssh-praktikan1
 
-            echo "Cek folder project...";
+            echo "Cek folder project..."
             if [ -d "${HOME}/senpro/498561/modul02/senpro-github-action/" ]; then
-              echo "Menghapus folder lama...";
-              rm -rf ~/senpro/498561/modul02/senpro-github-action;
+              echo "Menghapus folder lama..."
+              rm -rf ~/senpro/498561/modul02/senpro-github-action
             fi
 
-            echo "Clone repository baru...";
-            mkdir -p ~/senpro/498561/modul02;
-            cd ~/senpro/498561/modul02;
-            git clone https://github.com/selvirasell/senpro-github-action.git;
-            cd ~/senpro/498561/modul02/senpro-github-action;
+            echo "Clone repository baru..."
+            mkdir -p ~/senpro/498561/modul02
+            cd ~/senpro/498561/modul02
+            git clone https://github.com/selvirasell/senpro-github-action.git
+            cd ~/senpro/498561/modul02/senpro-github-action
 
-            echo "Upgrade Node.js di server...";
-            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -;
-            sudo apt-get install -y nodejs;
-            node -v;
+            echo "Upgrade Node.js di server..."
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S apt-get install -y nodejs
+            node -v
 
-            echo "Install Package dan Build Project...";
-            npm install;
-            npm run build;
+            echo "Hapus node_modules dan package-lock.json untuk memastikan clean install..."
+            rm -rf node_modules package-lock.json
+
+            echo "Install Package dan Build Project..."
+            npm install
+            npm run build
